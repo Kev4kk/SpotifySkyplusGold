@@ -27,7 +27,10 @@ def findSongURI(songName): #Return String:"Spotify URI"
     sp = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
     songName = songName.split("%28")[0]
     
-    result = str(sp.search(songName, limit=1, market="US")).split("'spotify:track:")[1].split("'")[0]
+    try:
+        result = str(sp.search(songName, limit=1, market="EE")).split("'spotify:track:")[1].split("'")[0]
+    except IndexError:
+        return 0
     return result
 
 def addSongToPlaylist(uri): #Returns null
@@ -42,10 +45,11 @@ while True:
     uris = fail.readlines()
     spaget = getSongName()
     uri = findSongURI(str(spaget[0]) + " " + str(spaget[1]))
-    for j in range(len(uris)):
-        uris[j] = uris[j].strip("\n")
-    if uri not in uris:
-        addSongToPlaylist(uri)
-        fail.write(str(uri + "\n"))
-    fail.close()
-    sleep(5)
+    if uri != 0:
+        for j in range(len(uris)):
+            uris[j] = uris[j].strip("\n")
+        if uri not in uris:
+            addSongToPlaylist(uri)
+            fail.write(str(uri + "\n"))
+        fail.close()
+        sleep(5)
