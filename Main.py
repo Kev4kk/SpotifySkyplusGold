@@ -36,7 +36,7 @@ def findSongURI(songName): #Return String:"Spotify URI"
 def addSongToPlaylist(uri): #Returns null
     
 
-    sp2 = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="playlist-modify-private"))
+    sp2 = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="playlist-modify-public"))
     sp2.playlist_add_items(playlist_id=playlist, items=[uri])
     return
 while True:
